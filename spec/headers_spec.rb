@@ -220,4 +220,18 @@ describe "ApiAuth::Headers" do
     end
   end
 
+  describe "with a subclass of Request" do
+
+    it "should just keep the object as the request and call methods on it" do
+      real_request = {'Date' => :timestamp}
+      request = ApiAuth::Request.new(real_request)
+      headers = nil
+      expect {
+        headers = ApiAuth::Headers.new(request)
+      }.to_not raise_error(ApiAuth::UnknownHTTPRequest)
+      headers.timestamp.should be == :timestamp
+    end
+
+  end
+
 end

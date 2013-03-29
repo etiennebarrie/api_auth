@@ -8,6 +8,11 @@ module ApiAuth
     def initialize(request)
       @original_request = request
 
+      if Request === request
+        @request = request
+        return true
+      end
+
       case request.class.to_s
       when /Net::HTTP/
         @request = NetHttpRequest.new(request)
